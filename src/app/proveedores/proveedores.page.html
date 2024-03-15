@@ -1,0 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-title>Proveedores</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <!-- Tarjeta para mostrar los proveedores -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Proveedores</ion-card-title>
+      <ion-card-subtitle>Todos los proveedores</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Lista de proveedores -->
+      <ion-list lines="full">
+        <!-- Iterar sobre cada proveedor -->
+        <ion-item *ngFor="let proveedor of proveedores">
+          <!-- Información del proveedor -->
+          <ion-label>
+            <!-- Nombre de la compañía -->
+            <h2>{{ proveedor.company }}</h2>
+            <!-- Detalles de contacto -->
+            <p>Teléfono: {{ proveedor.phone }}</p>
+            <p>Email: {{ proveedor.email }}</p>
+            <p>Dirección: {{ proveedor.address }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

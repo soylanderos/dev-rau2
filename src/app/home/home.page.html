@@ -1,0 +1,42 @@
+<ion-header [translucent]="true" slot="fixed">
+  <ion-toolbar color="dark">
+    <ion-title size="large">Hola {{nameUser}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!--Make a interface to redirect to diferent pages-->
+  <ion-list>
+    <ion-item button (click)="goTo('inventario')">
+      <ion-label>
+        <h2>Inventario</h2>
+        <p>Revisa todo el Inventario</p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="goTo('pedidos')">
+      <ion-label>
+        <h2>Pedidos</h2>
+        <p>Revisa los pedidos</p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="goTo('proveedores')">
+      <ion-label>
+        <h2>Proveedores</h2>
+        <p>Revisa tus proveedores</p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="goTo('informes')">
+      <ion-label>
+        <h2>Informe</h2>
+        <p>Realiza un Informe</p>
+      </ion-label>
+    </ion-item>
+    <ion-item button (click)="goTo('config')">
+      <ion-label>
+        <h2>Configuración</h2>
+        <p>Configura tu cuenta</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>
