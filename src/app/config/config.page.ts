@@ -7,9 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfigPage implements OnInit {
 
-  constructor() { }
+  cantidadMinima: any
 
-  ngOnInit() {
+  constructor() {
+
+   }
+
+ async ngOnInit() {
+  await console.log('config page')
+  }
+
+  guardarConfiguracion() {
+   //guardar cantidadminima en localStorage en un json
+    localStorage.setItem('config', JSON.stringify({cantidadMinima: this.cantidadMinima}))
   }
 
 }

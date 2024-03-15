@@ -31,6 +31,6 @@ export class InformesPage implements OnInit {
     this.informes = await this.inventarioService.getInventario();
   }
 
- 
+
 
 }
