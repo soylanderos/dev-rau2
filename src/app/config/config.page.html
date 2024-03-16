@@ -4,13 +4,14 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-list lines="full">
+<ion-content >
+  <ion-list>
     <ion-item>
-      <ion-label>Notificar cuando el stock esté por debajo de:</ion-label>
+      <ion-label label="Floating label">Notificar cuando el stock esté por debajo de:</ion-label>
       <ion-select [(ngModel)]="cantidadMinima" interface="action-sheet">
         <ion-select-option value="1">1 unidad</ion-select-option>
         <ion-select-option value="5">5 unidades</ion-select-option>
@@ -18,10 +19,14 @@
         <ion-select-option value="15">15 unidades</ion-select-option>
         <ion-select-option value="20">20 unidades</ion-select-option>
       </ion-select>
-      <!--input for personlize-->
-      <ion-input type="number" [(ngModel)]="cantidadMinima" placeholder="Cantidad mínima"></ion-input>
     </ion-item>
+    <ion-button expand="block" (click)="guardarConfiguracion()">Guardar Configuración</ion-button>
   </ion-list>
-
-  <ion-button expand="block" (click)="guardarConfiguracion()">Guardar Configuración</ion-button>
 </ion-content>
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-button [routerLink]="['/home']">Ir a Home</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

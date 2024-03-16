@@ -6,7 +6,14 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content [fullscreen]="true">
+    <!--add products open modal-->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="setOpenAdd(true)">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   <!-- Tarjeta para mostrar los proveedores -->
   <ion-card>
     <ion-card-header>
@@ -17,7 +24,7 @@
       <!-- Lista de proveedores -->
       <ion-list lines="full">
         <!-- Iterar sobre cada proveedor -->
-        <ion-item *ngFor="let proveedor of proveedores">
+        <ion-item (click)="getProductByIdSelected(proveedor.id)"  *ngFor="let proveedor of proveedores">
           <!-- Información del proveedor -->
           <ion-label>
             <!-- Nombre de la compañía -->
@@ -31,4 +38,112 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <!--Modal para agregar productos-->
+  <ion-modal [isOpen]="isModalOpenAdd">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="setOpenAdd(false)">
+              <ion-icon (click)="getProveedores()" name="chevron-back-sharp"></ion-icon>
+              Close
+            </ion-button>
+          </ion-buttons>
+          <ion-title>Agregar Producto</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <!-- Formulario para agregar producto -->
+        <ion-item>
+          <ion-label>ID</ion-label>
+          <!-- Mostrando la siguiente ID disponible dentro del campo de entrada y haciendo que sea solo de lectura -->
+          <ion-input type="number" [value]="proveedores.length + 1" readonly [(ngModel)]="productAdd.id">
+
+          </ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Compañia</ion-label>
+          <ion-input type="text" [(ngModel)]="productAdd.company"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Email</ion-label>
+          <ion-input type="text" [(ngModel)]="productAdd.email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Telefono</ion-label>
+          <ion-input type="number" [(ngModel)]="productAdd.phone"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Direccion</ion-label>
+          <ion-textarea [(ngModel)]="productAdd.address"></ion-textarea>
+        </ion-item>
+        <ion-button (click)="addNewProduct(productAdd)">Agregar Producto</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+   <!--Modal para mostrar el producto seleccionado con ng for en productselected-->
+   <ion-modal [isOpen]="isModalOpen" *ngFor="let productS of productSelected">
+    <ng-template >
+      <ion-header>
+        <ion-toolbar>
+          <!-- Botón de Regresar a la Izquierda -->
+          <ion-buttons slot="start">
+            <ion-button (click)="setOpen(false)">
+              <ion-icon (click)="getProveedores()" name="chevron-back-sharp"></ion-icon>
+              Close
+            </ion-button>
+          </ion-buttons>
+
+          <!-- Título en el Centro -->
+          <ion-title>{{ productS.company }}</ion-title>
+
+          <!-- Botón de Editar a la Derecha -->
+
+          <ion-buttons slot="end">
+            <ion-button (click)="toggleEdit()">
+              <ion-icon [color]="editProduct ? 'danger' : 'primary'" [name]="editProduct ? 'close-sharp' : 'create'"></ion-icon>
+              <span [ngStyle]="{'color': editProduct ? 'red' : 'blue'}">{{ editProduct ? 'Cancelar' : 'Editar' }}</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label>ID</ion-label>
+          <ion-input [disabled]="!editProduct" type="number" [(ngModel)]="productS.id"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Compañia</ion-label>
+          <ion-input [disabled]="!editProduct" type="number" [(ngModel)]="productS.company"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Email</ion-label>
+          <ion-textarea [autoGrow]="true" [disabled]="!editProduct" [(ngModel)]="productS.email"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label>Telefono</ion-label>
+          <ion-input [disabled]="!editProduct" type="text" [(ngModel)]="productS.phone"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Direccion</ion-label>
+          <ion-input [disabled]="!editProduct" type="text" [(ngModel)]="productS.address"></ion-input>
+        </ion-item>
+      </ion-content>
+      <ion-button color="danger" (click)="deleteProduct(productS.id)">Eliminar</ion-button>
+      <ion-button (click)="editProductSelected(productS)" [disabled]="!editProduct">Actualizar</ion-button>
+    </ng-template>
+  </ion-modal>
 </ion-content>
+
+
+
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-button [routerLink]="['/home']">Ir a Home</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

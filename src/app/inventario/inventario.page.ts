@@ -3,6 +3,7 @@ import { InventarioService } from '../services/Inventario/inventario.service';
 import { ConfigService } from '../services/config/config.service';
 import { LocalNotificationService } from '../services/notificacion/notificacion.service';
 import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
 
 
@@ -14,12 +15,23 @@ import { AlertController } from '@ionic/angular';
 export class InventarioPage implements OnInit {
 
   inventarios: any;
+  isModalOpen = false;
+  isModalOpenAdd = false;
+  productSelected: any[] = [];
+  idSelected: any;
+  editProduct: boolean = false;
+  nextId: number = 0;
+  productAdd: any = {}; // Objeto para almacenar el nuevo producto
+  editedProduct: any = {}; // Variable para almacenar el producto editado temporalmente
+  originalProduct: any = {};
+
 
   constructor(
     private inventarioService: InventarioService,
     private configService: ConfigService,
     private localNotificationService: LocalNotificationService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController
     ) {
 
     //si ya estan creado el inventario no volver a crearlo
@@ -148,6 +160,76 @@ export class InventarioPage implements OnInit {
       message: `El producto ${nombreProducto} tiene un stock bajo.`,
       buttons: ['OK']
     }).then(alert => alert.present());
+  }
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  toggleEdit() {
+    this.editProduct = !this.editProduct;
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  setOpenAdd(isOpen: boolean) {
+    this.isModalOpenAdd = isOpen;
+  }
+
+  cancelEdit() {
+    // Restaurar los valores originales del producto
+    this.editedProduct = { ...this.originalProduct };
+    this.setOpen(false);
+  }
+
+
+   openDetails(product: any) {
+    //busca el producto seleccionado con this.idSelected en el array de productos
+    this.productSelected = this.inventarios.filter((product: any) => product.id === this.idSelected);
+    //regresa el producto seleccionado
+    console.log(this.productSelected);
+
+  }
+  editProductSelected(product: any) {
+    //edita el pdroducto y actualiza usando el servicio de product
+    this.inventarioService.updateInventario(product);
+    //cerrar modal
+    this.setOpen(false);
+    //verifica si se actualizo si no se actualizo entonces deja los cambios anteriores
+
+  }
+  // Método para agregar un nuevo producto
+  addNewProduct(product: any) {
+    // Agregar el producto utilizando el servicio ProductService
+    this.inventarioService.addInventario(product);
+    //get products
+    this.getInventario();
+    // Cerrar modal
+    this.setOpenAdd(false);
+  }
+
+  // Método para eliminar un producto
+  deleteProduct(id: number) {
+    // Eliminar el producto utilizando el servicio ProductService
+    this.inventarioService.deleteInventario(id);
+    // Obtener productos
+    this.getInventario();
+    // Cerrar modal
+    this.setOpen(false);
+  }
+
+  getProductByIdSelected(id: number) {
+   //abir modal
+    this.setOpen(true);
+    // Obtener el producto seleccionado
+    this.productSelected = this.inventarios.filter((product: any) => product.id === id);
+    //regrsar el id seleccionado y imprimir en consola
+    this.idSelected = id;
+    console.log(this.idSelected);
+    this.productSelected = this.inventarios.filter((product: any) => product.id === this.idSelected);
+    console.log(this.productSelected);
   }
 
 }

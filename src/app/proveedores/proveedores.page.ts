@@ -9,6 +9,16 @@ import { ProveedorService } from '../services/Proveedores/proveedores.service';
 export class ProveedoresPage implements OnInit {
 
   proveedores: any;
+  isModalOpen = false;
+  isModalOpenAdd = false;
+  productSelected: any[] = [];
+  idSelected: any;
+  editProduct: boolean = false;
+  nextId: number = 0;
+  productAdd: any = {}; // Objeto para almacenar el nuevo producto
+  editedProduct: any = {}; // Variable para almacenar el producto editado temporalmente
+  originalProduct: any = {};
+
 
   constructor(private proveedorService: ProveedorService) {
     if(!localStorage.getItem('proveedores')){
@@ -69,6 +79,77 @@ export class ProveedoresPage implements OnInit {
 
   getProveedores() {
     this.proveedores = this.proveedorService.getProveedores();
+  }
+
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  toggleEdit() {
+    this.editProduct = !this.editProduct;
+  }
+
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+  }
+
+  setOpenAdd(isOpen: boolean) {
+    this.isModalOpenAdd = isOpen;
+  }
+
+  cancelEdit() {
+    // Restaurar los valores originales del producto
+    this.editedProduct = { ...this.originalProduct };
+    this.setOpen(false);
+  }
+
+
+   openDetails(product: any) {
+    //busca el producto seleccionado con this.idSelected en el array de productos
+    this.productSelected = this.proveedores.filter((product: any) => product.id === this.idSelected);
+    //regresa el producto seleccionado
+    console.log(this.productSelected);
+
+  }
+  editProductSelected(product: any) {
+    //edita el pdroducto y actualiza usando el servicio de product
+    this.proveedorService.updateProveedor(product);
+    //cerrar modal
+    this.setOpen(false);
+    //verifica si se actualizo si no se actualizo entonces deja los cambios anteriores
+
+  }
+  // Método para agregar un nuevo producto
+  addNewProduct(product: any) {
+    // Agregar el producto utilizando el servicio ProductService
+    this.proveedorService.addProveedor(product);
+    //get products
+    this.getProveedores();
+    // Cerrar modal
+    this.setOpenAdd(false);
+  }
+
+  // Método para eliminar un producto
+  deleteProduct(id: number) {
+    // Eliminar el producto utilizando el servicio ProductService
+    this.proveedorService.deleteProveedor(id);
+    // Obtener productos
+    this.getProveedores();
+    // Cerrar modal
+    this.setOpen(false);
+  }
+
+  getProductByIdSelected(id: number) {
+   //abir modal
+    this.setOpen(true);
+    // Obtener el producto seleccionado
+    this.productSelected = this.proveedores.filter((product: any) => product.id === id);
+    //regrsar el id seleccionado y imprimir en consola
+    this.idSelected = id;
+    console.log(this.idSelected);
+    this.productSelected = this.proveedores.filter((product: any) => product.id === this.idSelected);
+    console.log(this.productSelected);
   }
 
 }

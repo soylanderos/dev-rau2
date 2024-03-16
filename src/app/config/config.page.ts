@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-config',
@@ -8,8 +10,12 @@ import { Component, OnInit } from '@angular/core';
 export class ConfigPage implements OnInit {
 
   cantidadMinima: any
+  notificarPor: any;
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private modalCtrl: ModalController
+  ) {
 
    }
 
