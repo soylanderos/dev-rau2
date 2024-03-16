@@ -25,50 +25,6 @@
     </ion-item>
   </ion-list>
 
-    <!--Modal para agregar productos-->
-    <ion-modal [isOpen]="isModalOpenAdd">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-buttons slot="start">
-              <ion-button (click)="setOpenAdd(false)">
-                <ion-icon (click)="getPedidos()" name="chevron-back-sharp"></ion-icon>
-                Close
-              </ion-button>
-            </ion-buttons>
-            <ion-title>Agregar Pedido</ion-title>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          <!-- Formulario para agregar producto -->
-          <ion-item>
-            <ion-label>ID</ion-label>
-            <!-- Mostrando la siguiente ID disponible dentro del campo de entrada y haciendo que sea solo de lectura -->
-            <ion-input type="number" [value]="pedidos.length + 1" readonly [(ngModel)]="productAdd.id">
-
-            </ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Proveedor</ion-label>
-            <ion-input type="text" [(ngModel)]="productAdd.proveedor"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Producto</ion-label>
-            <ion-input type="text" [(ngModel)]="productAdd.producto"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>Cantidad</ion-label>
-            <ion-textarea [(ngModel)]="productAdd.quantity"></ion-textarea>
-          </ion-item>
-          <ion-item>
-            <ion-label>Precio</ion-label>
-            <ion-input type="number" [(ngModel)]="productAdd.price"></ion-input>
-          </ion-item>
-          <ion-button (click)="addNewProduct(productAdd)">Agregar Producto</ion-button>
-        </ion-content>
-      </ng-template>
-    </ion-modal>
-
      <!--Modal para mostrar el producto seleccionado con ng for en productselected-->
      <ion-modal [isOpen]="isModalOpen" *ngFor="let productS of productSelected">
       <ng-template >
@@ -119,6 +75,57 @@
         <ion-button (click)="editProductSelected(productS)" [disabled]="!editProduct">Actualizar</ion-button>
       </ng-template>
     </ion-modal>
+
+        <!-- Modal para agregar productos -->
+    <ion-modal [isOpen]="isModalOpenAdd">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="setOpenAdd(false)">
+                <ion-icon (click)="getPedidos()" name="chevron-back-sharp"></ion-icon>
+                Close
+              </ion-button>
+            </ion-buttons>
+            <ion-title>Agregar Pedido</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+        <!-- Selector de proveedor -->
+          <ion-item>
+            <ion-label>Proveedor</ion-label>
+            <ion-select [(ngModel)]="selectedProvider" (ionChange)="selectProvider()">
+              <ion-select-option *ngFor="let provider of providers" [value]="provider.id">{{ provider.company }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <!-- Selector de productos -->
+          <ion-item *ngIf="selectedProvider">
+            <ion-label>Producto</ion-label>
+            <ion-select [(ngModel)]="selectedProduct">
+              <ion-select-option *ngFor="let product of providerProducts" [value]="product">{{ product.name }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+
+          <!-- Cantidad -->
+          <ion-item>
+            <ion-label>Cantidad</ion-label>
+            <ion-input type="number" [(ngModel)]="productAdd.cantidad"></ion-input>
+          </ion-item>
+
+          <!-- Total de cantidades seleccionadas -->
+          <ion-item>
+            <ion-label>Total</ion-label>
+
+            <ion-input type="number" [disabled]="true" [(ngModel)]="total">{{ total }}</ion-input>
+          </ion-item>
+          <!-- button calculate the total-->
+          <ion-button (click)="calculateTotal()">Calcular Total</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
 
 </ion-content>
 <ion-footer>

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PedidosService } from '../services/Pedidos/pedidos.service';
+import { ProveedorService } from '../services/Proveedores/proveedores.service';
+import { InventarioService } from '../services/Inventario/inventario.service';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -19,15 +22,134 @@ export class PedidosPage implements OnInit {
   productAdd: any = {}; // Objeto para almacenar el nuevo producto
   editedProduct: any = {}; // Variable para almacenar el producto editado temporalmente
   originalProduct: any = {};
+  providers = [
+    {
+      id: 1,
+      company: 'The Coca-Cola Company',
+      phone: 123456789,
+      email: 'info@coca-colacompany.com',
+      address: '123 Coca-Cola Street, Atlanta, GA',
+      products: [
+        {
+          name: 'Coca Cola',
+          price: 1.5,
+        },
+        {
+          name: 'Sprite',
+          price: 1.5,
+        },
+        {
+          name: 'Fanta',
+          price: 1.5,
+        }
+        ]
+    },
+    {
+      id: 2,
+      company: 'PepsiCo',
+      phone: 987654321,
+      email: 'info@pepsico.com',
+      address: '456 Pepsi Avenue, Purchase, NY',
+      products: [
+        {
+          name: 'Pepsi',
+          price: 1.5,
+        },
+        {
+          name: '7UP',
+          price: 1.5,
+        },
+        {
+          name: 'Gatorade',
+          price: 1.5,
+        },
+        {
+          name: 'Mirinda',
+          price: 1.5,
+        }
+    ]
+    },
+    {
+      id: 3,
+      company: 'Grupo Peñafiel',
+      phone: 555555555,
+      email: 'info@grupo-penafiel.com',
+      address: '789 Peñafiel Street, Mexico City',
+      products: [
+        {
+          name: 'Peñafiel',
+          price: 1.5,
+        },
+        {
+          name: 'Fiji',
+          price: 1.5,
+        }
+      ]
+    },
+    {
+      id: 4,
+      company: 'Keurig Dr Pepper',
+      phone: 111111111,
+      email: 'info@kdp.com',
+      address: '101 Dr Pepper Drive, Plano, TX',
+      products: [
+        {
+          name: 'Dr Pepper',
+          price: 1.5,
+        },
+        {
+          name: 'Snapple',
+          price: 1.5,
+        },
+        {
+          name: 'Clamato',
+          price: 1.5,
+        }
+      ]
+    },
+    {
+      id: 5,
+      company: 'Grupo Modelo',
+      phone: 222222222,
+      email: 'info@grupomodelo.com',
+      address: '202 Corona Boulevard, Mexico City',
+      products: [
+        {
+          name: 'Corona',
+          price: 1.5,
+        },
+        {
+          name: 'Modelo',
+          price: 1.5,
+        }
+      ]
+    }
+  ];
+  productsByProvider = {};
+  products: any;
+  selectedProvider: any;
+  selectedProduct: any;
+  providerProducts: any[] = [];
+  total: any;
 
 
-  constructor(private pedidosService: PedidosService) {
+  constructor(
+    private pedidosService: PedidosService,
+    private proveedorService: ProveedorService,
+    private inventarioService: InventarioService) {
     if(!localStorage.getItem('pedidos')){
       this.crearPedidos();
       this.getPedidos();
+      this.getProviders();
+      this.getProductsByProvider();
+      this.calculateTotal();
+
     }
     else {
+      this.getProviders();
       this.getPedidos();
+      this.getProductsByProvider();
+
     }
   }
 
@@ -150,6 +272,40 @@ export class PedidosPage implements OnInit {
     this.productSelected = this.pedidos.filter((product: any) => product.id === this.idSelected);
     console.log(this.productSelected);
   }
+
+  getProviders() {
+    this.providers = this.proveedorService.getProveedores();
+    console.log(this.providers);
+
+  }
+
+  getProductsByProvider() {
+    this.productsByProvider = this.proveedorService.getProveedores();
+    console.log(this.productsByProvider);
+
+  }
+
+  selectProvider() {
+    // Filtrar los productos del proveedor seleccionado
+    const selectedProviderObj = this.providers.find(provider => provider.id === this.selectedProvider);
+    if (selectedProviderObj) {
+      this.providerProducts = selectedProviderObj.products;
+    } else {
+      this.providerProducts = [];
+    }
+  }
+
+  calculateTotal() {
+    const selectedProductObj = this.providerProducts.find(product => product.name === this.selectedProduct);
+    if (selectedProductObj && this.productAdd.cantidad > 0) {
+      this.total = selectedProductObj.price * this.productAdd.cantidad;
+      console.log(this.total)
+    } else {
+      this.total = 0;
+    }
+}
+
+
 
 
 }

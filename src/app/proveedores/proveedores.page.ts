@@ -42,37 +42,104 @@ export class ProveedoresPage implements OnInit {
         company: 'The Coca-Cola Company',
         phone: 123456789,
         email: 'info@coca-colacompany.com',
-        address: '123 Coca-Cola Street, Atlanta, GA'
+        address: '123 Coca-Cola Street, Atlanta, GA',
+        products: [
+          {
+            name: 'Coca Cola',
+            price: 1.5,
+          },
+          {
+            name: 'Sprite',
+            price: 1.5,
+          },
+          {
+            name: 'Fanta',
+            price: 1.5,
+          }
+          ]
       },
       {
         id: 2,
         company: 'PepsiCo',
         phone: 987654321,
         email: 'info@pepsico.com',
-        address: '456 Pepsi Avenue, Purchase, NY'
+        address: '456 Pepsi Avenue, Purchase, NY',
+        products: [
+          {
+            name: 'Pepsi',
+            price: 1.5,
+          },
+          {
+            name: '7UP',
+            price: 1.5,
+          },
+          {
+            name: 'Gatorade',
+            price: 1.5,
+          },
+          {
+            name: 'Mirinda',
+            price: 1.5,
+          }
+      ]
       },
       {
         id: 3,
         company: 'Grupo Peñafiel',
         phone: 555555555,
         email: 'info@grupo-penafiel.com',
-        address: '789 Peñafiel Street, Mexico City'
+        address: '789 Peñafiel Street, Mexico City',
+        products: [
+          {
+            name: 'Peñafiel',
+            price: 1.5,
+          },
+          {
+            name: 'Fiji',
+            price: 1.5,
+          }
+        ]
       },
       {
         id: 4,
         company: 'Keurig Dr Pepper',
         phone: 111111111,
         email: 'info@kdp.com',
-        address: '101 Dr Pepper Drive, Plano, TX'
+        address: '101 Dr Pepper Drive, Plano, TX',
+        products: [
+          {
+            name: 'Dr Pepper',
+            price: 1.5,
+          },
+          {
+            name: 'Snapple',
+            price: 1.5,
+          },
+          {
+            name: 'Clamato',
+            price: 1.5,
+          }
+        ]
       },
       {
         id: 5,
         company: 'Grupo Modelo',
         phone: 222222222,
         email: 'info@grupomodelo.com',
-        address: '202 Corona Boulevard, Mexico City'
+        address: '202 Corona Boulevard, Mexico City',
+        products: [
+          {
+            name: 'Corona',
+            price: 1.5,
+          },
+          {
+            name: 'Modelo',
+            price: 1.5,
+          }
+        ]
       }
     ];
+
     localStorage.setItem('proveedores', JSON.stringify(proveedores));
     console.log('Proveedores creados');
   }
