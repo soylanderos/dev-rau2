@@ -59,7 +59,7 @@ export class InformesPage implements OnInit {
         labels: this.masVendidos.map(producto => producto.name),
         datasets: [{
           label: 'Cantidad',
-          data: this.masVendidos.map(producto => producto.quantity),
+          data: this.masVendidos.map(producto => producto.quantity * producto.price),
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1
