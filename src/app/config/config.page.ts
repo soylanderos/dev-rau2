@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-config',
@@ -14,7 +15,8 @@ export class ConfigPage implements OnInit {
 
   constructor(
     private router: Router,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastController: ToastController
   ) {
 
    }
@@ -23,9 +25,18 @@ export class ConfigPage implements OnInit {
   await console.log('config page')
   }
 
-  guardarConfiguracion() {
+  async guardarConfiguracion() {
    //guardar cantidadminima en localStorage en un json
     localStorage.setItem('config', JSON.stringify({cantidadMinima: this.cantidadMinima}))
+    //notiicar usando el toast
+    const toast = await this.toastController.create({
+      message: 'Configuracion Guardada!',
+      duration: 1500,
+      icon: 'settings',
+    });
+
+    await toast.present();
   }
+
 
 }
