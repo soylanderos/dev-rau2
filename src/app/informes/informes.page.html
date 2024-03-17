@@ -8,4 +8,35 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!--Show -->
+  <ion-content>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Productos más vendidos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barChart></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Productos más vendidos</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list lines="none">
+          <ion-item-divider>
+            <ion-label>Nombre del Producto</ion-label>
+            <ion-label>Productos Restantes</ion-label>
+          </ion-item-divider>
+          <ion-item *ngFor="let producto of masVendidos">
+            <ion-label>{{ producto.name }}</ion-label>
+            <ion-label>{{ producto.quantity }}</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+
+
 </ion-content>
