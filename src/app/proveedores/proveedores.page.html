@@ -39,7 +39,7 @@
     </ion-card-content>
   </ion-card>
 
-  <!--Modal para agregar productos-->
+  <!--Modal para agregar proveedores-->
   <ion-modal [isOpen]="isModalOpenAdd">
     <ng-template>
       <ion-header>
@@ -50,7 +50,7 @@
               Close
             </ion-button>
           </ion-buttons>
-          <ion-title>Agregar Producto</ion-title>
+          <ion-title>Agregar Proveedor</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
@@ -78,7 +78,7 @@
           <ion-label>Direccion</ion-label>
           <ion-textarea [(ngModel)]="productAdd.address"></ion-textarea>
         </ion-item>
-        <ion-button (click)="addNewProduct(productAdd)">Agregar Producto</ion-button>
+        <ion-button (click)="addNewProduct(productAdd)">Agregar Proveedor</ion-button>
       </ion-content>
     </ng-template>
   </ion-modal>
@@ -141,9 +141,12 @@
 
 
 <ion-footer>
-  <ion-toolbar color="primary">
-    <ion-buttons>
-      <ion-button [routerLink]="['/home']">Ir a Home</ion-button>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-button expand="full" [routerLink]="['/home']">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+         Home
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

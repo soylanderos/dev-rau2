@@ -14,8 +14,11 @@ export class InformesPage implements OnInit {
   @ViewChild('barChart')
   barChart!: ElementRef;
   chart: any;
+  chart2: any;
 
   masVendidos: any[] = [];
+  menosVendidos: any[] = [];
+  nextAgostarse: any = [];
   limiteMasVendidos = 5; // Puedes ajustar este límite según tus necesidades
 
   constructor(
@@ -38,6 +41,7 @@ export class InformesPage implements OnInit {
   async getInformes() {
     this.informes = await this.inventarioService.getInventario();
     this.masVendidos = this.getMasVendidos(this.informes, this.limiteMasVendidos);
+    this.menosVendidos = this.getMenosVendidos(this.informes, this.limiteMasVendidos);
     console.log(this.masVendidos);
     this.createBarChart();
   }
@@ -68,6 +72,13 @@ export class InformesPage implements OnInit {
     });
   }
 
+  getMenosVendidos(productos: any[], limite: number): any[] {{
+    // Ordenar los productos por cantidad en orden ascendente
+    productos.sort((a, b) => b.quantity - a.quantity);
 
+    // Tomar los primeros 'limite' productos como los menos vendidos
+    return productos.slice(0, limite);
+  }
+  }
 
 }

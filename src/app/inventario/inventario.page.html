@@ -136,11 +136,13 @@
 </ion-content>
 
 
-
 <ion-footer>
-  <ion-toolbar color="primary">
-    <ion-buttons>
-      <ion-button [routerLink]="['/home']">Ir a Home</ion-button>
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-button expand="full" [routerLink]="['/home']">
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+         Home
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
