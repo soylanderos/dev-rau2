@@ -130,6 +130,7 @@ export class PedidosPage implements OnInit {
   selectedProvider: any;
   selectedProduct: any;
   providerProducts: any[] = [];
+  price: any;
   total: any;
 
 
@@ -142,7 +143,6 @@ export class PedidosPage implements OnInit {
       this.getPedidos();
       this.getProviders();
       this.getProductsByProvider();
-      this.calculateTotal();
 
     }
     else {
@@ -290,20 +290,56 @@ export class PedidosPage implements OnInit {
     const selectedProviderObj = this.providers.find(provider => provider.id === this.selectedProvider);
     if (selectedProviderObj) {
       this.providerProducts = selectedProviderObj.products;
+      this.selectedProvider = selectedProviderObj.company;
+      this.calcularTotal()
+      // Buscar el precio del producto seleccionado utilizando el índice
+      const selectedProductIndex = this.selectedProduct;
+      if (selectedProductIndex >= 0 && selectedProductIndex < this.providerProducts.length) {
+        const selectedProduct = this.providerProducts[selectedProductIndex];
+        this.price = selectedProduct.price;
+        // Calcular el total basado en la cantidad ingresada y el precio del producto seleccionado
+        this.total = this.productAdd.cantidad * this.price;
+        this.calcularTotal()
+      } else {
+        // Si el índice seleccionado está fuera de rango, establecer el precio y el total en cero
+        this.price = 0;
+        this.total = 0;
+        this.calcularTotal()
+      }
     } else {
       this.providerProducts = [];
-    }
-  }
-
-  calculateTotal() {
-    const selectedProductObj = this.providerProducts.find(product => product.name === this.selectedProduct);
-    if (selectedProductObj && this.productAdd.cantidad > 0) {
-      this.total = selectedProductObj.price * this.productAdd.cantidad;
-      console.log(this.total)
-    } else {
+      this.price = 0;
       this.total = 0;
+      this.calcularTotal()
     }
 }
+
+
+
+  calcularTotal() {
+    this.total = this.productAdd.cantidad * this.selectedProduct.price;
+    console.log(this.total);
+  }
+
+  addPedido() {
+   //add pedido with selectedProvider, selectedProduct and save in localstorage in pedidos
+    let pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+    pedidos.push({
+      id: pedidos.length + 1,
+      proveedor: this.selectedProvider,
+      producto: this.selectedProduct.name,
+      cantidad: this.productAdd.cantidad,
+      total: this.total
+    });
+    localStorage.setItem('pedidos', JSON.stringify(pedidos));
+    this.calcularTotal()
+    this.getPedidos();
+    //close modal
+    this.setOpenAdd(false);
+
+
+
+  }
 
 
 

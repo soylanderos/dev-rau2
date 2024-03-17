@@ -114,14 +114,17 @@
             <ion-input type="number" [(ngModel)]="productAdd.cantidad"></ion-input>
           </ion-item>
 
-          <!-- Total de cantidades seleccionadas -->
+
           <ion-item>
             <ion-label>Total</ion-label>
 
-            <ion-input type="number" [disabled]="true" [(ngModel)]="total">{{ total }}</ion-input>
+            <ion-input type="number" [disabled]="true">{{ total }}</ion-input>
           </ion-item>
+
           <!-- button calculate the total-->
-          <ion-button (click)="calculateTotal()">Calcular Total</ion-button>
+          <ion-button (click)="calcularTotal()">Calcular Total</ion-button>
+           <!-- button add pedido-->
+          <ion-button (click)="addPedido()">Agregar Pedido</ion-button>
         </ion-content>
       </ng-template>
     </ion-modal>
